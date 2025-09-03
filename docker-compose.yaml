@@ -20,6 +20,8 @@ services:
 
   db:
     image: postgres:15
+    ports:
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -32,6 +34,36 @@ services:
     image: redis:7
     ports:
       - "6379:6379"
+
+  celery:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    command: celery -A config worker -l info
+    volumes:
+      - .:/app
+    env_file: .env
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.base
+    depends_on:
+      - db
+      - redis
+      - web
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    command: celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - .:/app
+    env_file: .env
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.base
+    depends_on:
+      - db
+      - redis
+      - web
 
   nginx:
     build: ./docker/nginx
