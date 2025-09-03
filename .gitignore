@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.log
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Django stuff
+media/
+staticfiles/
+db.sqlite3
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# Environment files
+.env
+*.env
+
+# Docker
+*.pid
+*.seed
+*.bak
+docker/postgres/data/
+postgres_data/
+static_volume/
+media_volume/
+
+# OS files
+.DS_Store
+Thumbs.db

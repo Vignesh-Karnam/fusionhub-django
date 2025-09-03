@@ -1,0 +1,3 @@
+CREATE DATABASE fusionhub;
+CREATE USER fusionhub WITH ENCRYPTED PASSWORD 'secret';
+GRANT ALL PRIVILEGES ON DATABASE fusionhub TO fusionhub;

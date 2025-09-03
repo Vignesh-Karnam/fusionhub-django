@@ -1,0 +1,40 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Git & CI/CD
+.git/
+.gitignore
+.github/
+.gitlab-ci.yml
+
+# Local configs
+*.log
+*.env
+.env.*
+
+# Django specific
+media/
+staticfiles/
+db.sqlite3
+
+# IDE / editor configs
+.vscode/
+.idea/
+
+# Docker related
+docker/postgres/data/
+postgres_data/
+static_volume/
+media_volume/
+
+# OS files
+.DS_Store
+Thumbs.db
