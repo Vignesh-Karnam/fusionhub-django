@@ -36,3 +36,7 @@ media_volume/
 # OS files
 .DS_Store
 Thumbs.db
+
+
+# Tailwind
+node_modules
