@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.utils.translation import gettext_lazy as _
 
 
@@ -37,32 +37,16 @@ class CustomAuthenticationForm(AuthenticationForm):
     )
 
 
-from django.contrib.auth.forms import UserCreationForm
-from .models import User
-
-class CustomUserCreationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ("email",)
-        widgets = {
-            "email": forms.EmailInput(attrs={"class": "input-field", "placeholder": "Email"}),
-        }
-
-
-from django.contrib.auth.forms import PasswordChangeForm
-
-class CustomPasswordChangeForm(PasswordChangeForm):
-    old_password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "input-field"}))
-    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "input-field"}))
-    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "input-field"}))
-
-
-from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
-
 class CustomPasswordResetForm(PasswordResetForm):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={"class": "input-field"}))
-
-
-class CustomSetPasswordForm(SetPasswordForm):
-    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "input-field"}))
-    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "input-field"}))
+    email = forms.EmailField(
+        label=_("Email"),
+        max_length=254,
+        widget=forms.EmailInput(
+            attrs={
+                'autocomplete': 'email',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5',
+                'placeholder': 'name@company.com'
+            }
+        ),
+        required=True
+    )
