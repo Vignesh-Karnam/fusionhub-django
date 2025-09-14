@@ -1,6 +1,7 @@
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, PasswordResetCompleteView
-from .forms import CustomAuthenticationForm, CustomPasswordResetForm
+from .forms import CustomAuthenticationForm, CustomPasswordResetForm, CustomSetPasswordForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.urls import reverse_lazy
 
 
 class CustomLoginView(LoginView):
@@ -13,12 +14,19 @@ class CustomPasswordResetView(PasswordResetView):
     form_class = CustomPasswordResetForm
     email_template_name = 'users/password_reset_email.html'
     subject_template_name = 'users/password_reset_subject.txt'
+    success_url = reverse_lazy("users:password_reset_done")
+
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-    pass
+    template_name = 'users/password_reset_confirm.html'
+    form_class = CustomSetPasswordForm
+    success_url = reverse_lazy("users:password_reset_complete")
+
 
 class CustomPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'users/password_reset_done.html'
+    success_url = reverse_lazy("users:password_reset_complete")
+
 
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'users/password_reset_complete.html'

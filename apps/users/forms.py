@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.utils.translation import gettext_lazy as _
 
 
@@ -48,5 +48,30 @@ class CustomPasswordResetForm(PasswordResetForm):
                 'placeholder': 'name@company.com'
             }
         ),
+        required=True
+    )
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5',
+                'placeholder': '••••••••'
+            }
+        ),
+        strip=False,
+        required=True
+    )
+    new_password2 = forms.CharField(
+        label=_("New password confirmation"),
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5',
+                'placeholder': '••••••••'
+            }
+        ),
+        strip=False,
         required=True
     )
