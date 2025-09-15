@@ -1,7 +1,24 @@
-from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, PasswordResetCompleteView
-from .forms import CustomAuthenticationForm, CustomPasswordResetForm, CustomSetPasswordForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import (
+    LoginView,
+    PasswordResetCompleteView,
+    PasswordResetConfirmView,
+    PasswordResetDoneView,
+    PasswordResetView
+)
 from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+
+from .forms import (
+    CustomAuthenticationForm,
+    CustomPasswordResetForm,
+    CustomSetPasswordForm,
+    CustomUserCreationForm
+)
+
+
+class CustomRegisterView(CreateView):
+    form_class = CustomUserCreationForm
+    template_name = 'users/signup.html'
 
 
 class CustomLoginView(LoginView):
