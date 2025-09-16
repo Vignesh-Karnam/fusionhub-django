@@ -25,6 +25,14 @@ class CustomLoginView(LoginView):
     template_name = 'users/login.html'
     form_class = CustomAuthenticationForm
 
+    def form_valid(self, form):
+        remember_me = form.cleaned_data.get('remember_me')
+        if remember_me:
+            self.request.session.set_expiry(1209600)
+        else:
+            self.request.session.set_expiry(0)
+        return super().form_valid(form)
+
 
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'users/password_reset_form.html'
