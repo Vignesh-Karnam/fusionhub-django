@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # local apps
     "apps.users",
+    'apps.core',
     "django_celery_beat",
     "django_celery_results",
 ]
