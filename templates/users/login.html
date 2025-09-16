@@ -17,15 +17,29 @@
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900">{{ form.username.label }}</label>
                         {{ form.username }}
+                        {% for error in form.username.errors %}
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ error }}</p>
+                        {% endfor %}
                     </div>
                     <div>
                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900">{{ form.password.label }}</label>
                         {{ form.password }}
+                        {% for error in form.password.errors %}
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ error }}</p>
+                        {% endfor %}
+                        {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ error }}</p>
+                        {% endfor %}
+                        {% endif %}
                     </div>
                     <div class="flex items-center justify-between">
                         <div class="flex items-start">
                             <div class="flex items-center h-5">
                               {{ form.remember_me }}
+                                {% for error in form.remember_me.errors %}
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ error }}</p>
+                                {% endfor %}
                             </div>
                             <div class="ml-3 text-sm">
                               <label for="remember" class="text-gray-500">{{ form.remember_me.label }}</label>
