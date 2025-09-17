@@ -1,5 +1,6 @@
 from django.contrib.auth.views import (
     LoginView,
+    LogoutView,
     PasswordResetCompleteView,
     PasswordResetConfirmView,
     PasswordResetDoneView,
@@ -32,6 +33,10 @@ class CustomLoginView(LoginView):
         else:
             self.request.session.set_expiry(0)
         return super().form_valid(form)
+
+
+class CustomLogoutView(LogoutView):
+    pass
 
 
 class CustomPasswordResetView(PasswordResetView):
