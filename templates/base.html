@@ -38,7 +38,13 @@
                 <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Earnings</a>
               </li>
               <li>
-                <a href="{% url 'users:logout' %}" class="block px-4 py-2 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Sign out</a>
+                <form method="post" action="{% url 'users:logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" 
+                    class="block px-4 py-2 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">
+                    Sign out
+                  </button>
+                </form>
               </li>
             </ul>
           </div>
