@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}About - FusionHub{% endblock %}
+
+{% block content %}
+  <!-- Hero Section -->
+  <section class="bg-gray-900 text-white py-16 rounded-lg">
+    <div class="max-w-screen-xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">About FusionHub</h1>
+      <p class="text-lg text-gray-300">
+        We help businesses monitor competitors, make smarter decisions, and grow with confidence.
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="py-16">
+    <div class="max-w-screen-lg mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">Our Mission</h2>
+      <p class="text-lg text-gray-600">
+        At <span class="font-semibold">FusionHub</span>, our mission is simple:  
+        to empower businesses with **actionable competitor insights** so they can stay ahead in a highly competitive digital market.  
+        From tracking prices to analyzing trends, we aim to make competitor research effortless, accurate, and impactful.
+      </p>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section class="bg-gray-50 py-16">
+    <div class="max-w-screen-xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Our Story</h2>
+        <p class="text-gray-600 mb-4">
+          FusionHub was born out of a simple idea — **businesses shouldn’t waste countless hours manually checking what their competitors are doing**.  
+          What started as a small tool to track pricing evolved into a complete platform covering multiple platforms, real-time alerts, and deep analytics.
+        </p>
+        <p class="text-gray-600">
+          Today, FusionHub supports companies of all sizes, helping them make data-driven decisions that give them the edge in competitive markets.
+        </p>
+      </div>
+      <div class="rounded-lg overflow-hidden shadow-lg">
+        <img src="https://via.placeholder.com/600x400" alt="Our Team" class="w-full h-auto">
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="py-16">
+    <div class="max-w-screen-xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">Our Core Values</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        
+        <div class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
+          <h3 class="text-xl font-semibold mb-3">🚀 Innovation</h3>
+          <p class="text-gray-600">We constantly improve our platform to deliver faster, smarter insights.</p>
+        </div>
+        
+        <div class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
+          <h3 class="text-xl font-semibold mb-3">🔒 Trust</h3>
+          <p class="text-gray-600">Your data is secure with us — privacy and reliability come first.</p>
+        </div>
+        
+        <div class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
+          <h3 class="text-xl font-semibold mb-3">🤝 Customer First</h3>
+          <p class="text-gray-600">Every feature we build starts with solving real customer problems.</p>
+        </div>
+        
+        <div class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
+          <h3 class="text-xl font-semibold mb-3">🌍 Impact</h3>
+          <p class="text-gray-600">We strive to create meaningful change for businesses worldwide.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-gray-900 text-white py-16 rounded-lg">
+    <div class="max-w-screen-xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-4">Ready to Stay Ahead?</h2>
+      <p class="text-lg text-gray-300 mb-6">
+        Join hundreds of businesses already using FusionHub to track competitors effectively.
+      </p>
+      <a href="{% url 'core:pricing' %}" class="px-6 py-3 bg-primary-600 text-white rounded-lg shadow hover:bg-primary-700">
+        View Pricing
+      </a>
+    </div>
+  </section>
+{% endblock %}
