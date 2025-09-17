@@ -59,19 +59,19 @@
     <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
       <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-gray-800 md:bg-gray-900 border-gray-700">
         <li>
-          <a href="#" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:p-0 md:text-blue-500" aria-current="page">Home</a>
+          <a href="{% url 'core:home' %}" class="{% if request.path == '/home/' %}block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:p-0 md:text-blue-500{% else %}block py-2 px-3 rounded-sm md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700{% endif %}" aria-current="page">Home</a>
         </li>
         <li>
-          <a href="#" class="block py-2 px-3 rounded-sm md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700">About</a>
+          <a href="#" class="{% if request.path == '/about/' %}block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:p-0 md:text-blue-500{% else %}block py-2 px-3 rounded-sm md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700{% endif %}">About</a>
         </li>
         <li>
-          <a href="#" class="block py-2 px-3 rounded-sm md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700">Services</a>
+          <a href="#" class="{% if request.path == '/services/' %}block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:p-0 md:text-blue-500{% else %}block py-2 px-3 rounded-sm md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700{% endif %}">Services</a>
         </li>
         <li>
-          <a href="#" class="block py-2 px-3 rounded-sm md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700">Pricing</a>
+          <a href="{% url 'core:pricing' %}" class="{% if request.path == '/pricing/' %}block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:p-0 md:text-blue-500{% else %}block py-2 px-3 rounded-sm md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700{% endif %}">Pricing</a>
         </li>
         <li>
-          <a href="#" class="block py-2 px-3 rounded-sm md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700">Contact</a>
+          <a href="#" class="{% if request.path == '/contact/' %}block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:p-0 md:text-blue-500{% else %}block py-2 px-3 rounded-sm md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700{% endif %}">Contact</a>
         </li>
       </ul>
     </div>
