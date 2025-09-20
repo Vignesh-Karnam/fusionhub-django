@@ -1,0 +1,28 @@
+# Python base
+FROM python:3.11-slim
+
+# Install system dependencies (Node for Tailwind build)
+RUN apt-get update && apt-get install -y nodejs npm
+
+# Set workdir
+WORKDIR /app
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Tailwind dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy Django project
+COPY . .
+
+# Build Tailwind CSS for production
+RUN npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --minify
+
+# Collect static files for Django
+RUN python manage.py collectstatic --noinput
+
+# Run Gunicorn (Render detects $PORT automatically)
+CMD ["gunicorn", "myproject.wsgi:application", "--bind", "0.0.0.0:${PORT:-8000}"]
