@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y nodejs npm
 WORKDIR /app
 
 # Install Python dependencies
-COPY requirements/prod.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements/ ./requirements/
+RUN pip install --no-cache-dir -r requirements/prod.txt
 
 # Install Tailwind dependencies
 COPY package*.json ./
