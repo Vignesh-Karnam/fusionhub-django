@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     # local apps
     "apps.users",
     'apps.core',
+    'apps.competitors'
     "django_celery_beat",
     "django_celery_results",
 ]
