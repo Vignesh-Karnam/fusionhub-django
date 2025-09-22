@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     # local apps
     "apps.users",
     'apps.core',
-    'apps.competitors'
+    'apps.competitors',
     "django_celery_beat",
     "django_celery_results",
 ]
@@ -130,5 +130,6 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")  # your app password
 # Default "from" email
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'dashboard:dashboard'
 LOGOUT_REDIRECT_URL = 'core:home'
