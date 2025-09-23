@@ -9,7 +9,9 @@ from django.utils.timezone import now
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
+from ..core.models import Platform
 from .models import Competitor
+from ..products.models import Product
 
 
 class CompetitorsView(LoginRequiredMixin, TemplateView):
@@ -24,15 +26,28 @@ def upload_competitors(request):
         return JsonResponse({"error": "No file uploaded"}, status=400)
 
     # Decode file content
-    decoded_file = file.read().decode("utf-8")
+    try:
+        decoded_file = file.read().decode("utf-8")
+    except UnicodeDecodeError:
+        file.seek(0)  # Reset file pointer
+        decoded_file = file.read().decode("cp1252")
     io_string = io.StringIO(decoded_file)
     reader = csv.DictReader(io_string)
 
     new_competitors = []
     for row in reader:
+        try:
+            platform = Platform.objects.get(name=row.get("platform"))
+        except Platform.DoesNotExist:
+            continue
+        try:
+            product = Product.objects.get(product_id=row.get("product_id"))
+        except Product.DoesNotExist:
+            continue
+
         competitor = Competitor.objects.create(
-            product_id=row.get("product_id"),
-            platform_id=row.get("platform_id"),
+            product=product,
+            platform=platform,
             competitor_id=row.get("competitor_id"),
             title=row.get("title") or None,
             url=row.get("url"),
@@ -42,4 +57,4 @@ def upload_competitors(request):
             confirmed=True,
         )
         new_competitors.append(competitor)
-    return render(request, "competitors/competitor_rows.html", {"competitors": new_competitors})
+    return render(request, "competitors/partials/competitor_rows.html", {"competitors": new_competitors})
