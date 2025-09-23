@@ -25,7 +25,7 @@
          class="block px-4 py-2 rounded-lg {% if request.resolver_match.url_name == 'dashboard' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
          📊 Dashboard
       </a>
-      <a href="" 
+      <a href="{% url 'products:products' %}" 
         class="block px-4 py-2 rounded-lg {% if request.resolver_match.namespace == 'products' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
         🛍 My Products
       </a>
