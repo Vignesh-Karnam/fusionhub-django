@@ -1,0 +1,4 @@
+my_product_id,competitor_product_id,platform,title,url,brand,last_price
+P12345,C98765,Amazon,Pampers Diaper,https://www.amazon.in/dp/C98765,Pampers,450.00
+F67890,C24680,Flipkart,Mamypoko Diaper,https://www.flipkart.com/item/C24680,Mamypoko,430.00
+M98765,C13579,Myntra,SuperDry Diaper,https://www.myntra.com/product/C13579,SuperDry,500.00

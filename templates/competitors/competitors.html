@@ -1,4 +1,6 @@
 {% extends "login_base.html" %}
+{% load static %}
+
 {% block title %}Competitors - FusionHub{% endblock %}
 
 {% block content %}
@@ -6,74 +8,79 @@
 
 <!-- Top Metrics -->
 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-  <div class="p-6 bg-white rounded-lg shadow text-center">
+  <div class="p-6 bg-white rounded-lg shadow">
     <h2 class="text-sm text-gray-500">Total Competitors</h2>
-    <p class="text-3xl font-bold text-primary-600">124</p>
+    <p class="text-3xl font-bold text-indigo-600">{{ total_competitors }}</p>
   </div>
-  <div class="p-6 bg-white rounded-lg shadow text-center">
-    <h2 class="text-sm text-gray-500">Auto-Discovered</h2>
-    <p class="text-3xl font-bold text-green-600">75</p>
+  <div class="p-6 bg-white rounded-lg shadow">
+    <h2 class="text-sm text-gray-500">Products Tracked</h2>
+    <p class="text-3xl font-bold text-green-600">{{ products_tracked }}</p>
   </div>
-  <div class="p-6 bg-white rounded-lg shadow text-center">
-    <h2 class="text-sm text-gray-500">Manual Added</h2>
-    <p class="text-3xl font-bold text-blue-600">49</p>
-  </div>
-  <div class="p-6 bg-white rounded-lg shadow text-center">
+  <div class="p-6 bg-white rounded-lg shadow">
     <h2 class="text-sm text-gray-500">Price Changes (24h)</h2>
-    <p class="text-3xl font-bold text-yellow-500">18</p>
+    <p class="text-3xl font-bold text-yellow-500">{{ price_changes }}</p>
   </div>
+</div>
+
+<!-- Upload Competitors -->
+<div class="p-6 bg-white rounded-lg shadow mb-8">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-lg font-semibold">⬆ Upload Competitors</h2>
+    <a href="{% static 'templates/competitors_template.csv' %}" 
+       download 
+       class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm">
+       ⬇ Download Template
+    </a>
+  </div>
+
+  <form 
+    method="post" 
+    enctype="multipart/form-data"
+    hx-post="{% url 'competitors:upload' %}" 
+    hx-target="#upload-result" 
+    hx-swap="innerHTML"
+    class="flex items-center gap-4"
+  >
+    {% csrf_token %}
+    <input type="file" name="file" 
+           class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 
+                  file:rounded-lg file:border-0 file:text-sm file:font-semibold 
+                  file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+
+    <button type="submit"
+            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+      Upload
+    </button>
+  </form>
+
+  <!-- Upload Result -->
+  <div id="upload-result" class="mt-4 text-sm"></div>
 </div>
 
 <!-- Competitors Table -->
 <div class="p-6 bg-white rounded-lg shadow">
-  <div class="flex items-center justify-between mb-4">
-    <h2 class="text-lg font-semibold">🛒 Competitor List</h2>
-    <a href="#" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-      + Add Competitor
-    </a>
-  </div>
+  <h2 class="text-lg font-semibold mb-4">📊 Competitors List</h2>
   <div class="overflow-x-auto">
-    <table class="w-full text-left border-collapse">
-      <thead>
-        <tr class="bg-gray-100 text-gray-600">
-          <th class="px-4 py-2">Competitor</th>
-          <th class="px-4 py-2">Website</th>
-          <th class="px-4 py-2">Products Tracked</th>
-          <th class="px-4 py-2">Last Update</th>
-          <th class="px-4 py-2">Actions</th>
+    <table class="w-full border border-gray-200 rounded-lg">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-left text-sm text-gray-600">Name</th>
+          <th class="px-4 py-2 text-left text-sm text-gray-600">Platform</th>
+          <th class="px-4 py-2 text-left text-sm text-gray-600">Product Count</th>
         </tr>
       </thead>
       <tbody>
+        {% for competitor in competitors %}
         <tr class="border-t">
-          <td class="px-4 py-2 font-medium">Amazon</td>
-          <td class="px-4 py-2">amazon.in</td>
-          <td class="px-4 py-2">220</td>
-          <td class="px-4 py-2">Today</td>
-          <td class="px-4 py-2 space-x-2">
-            <a href="#" class="text-blue-600 hover:underline">View</a>
-            <a href="#" class="text-red-600 hover:underline">Remove</a>
-          </td>
+          <td class="px-4 py-2">{{ competitor.name }}</td>
+          <td class="px-4 py-2">{{ competitor.platform }}</td>
+          <td class="px-4 py-2">{{ competitor.products_count }}</td>
         </tr>
-        <tr class="border-t">
-          <td class="px-4 py-2 font-medium">Flipkart</td>
-          <td class="px-4 py-2">flipkart.com</td>
-          <td class="px-4 py-2">180</td>
-          <td class="px-4 py-2">Yesterday</td>
-          <td class="px-4 py-2 space-x-2">
-            <a href="#" class="text-blue-600 hover:underline">View</a>
-            <a href="#" class="text-red-600 hover:underline">Remove</a>
-          </td>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="px-4 py-2 text-gray-500 text-center">No competitors yet</td>
         </tr>
-        <tr class="border-t">
-          <td class="px-4 py-2 font-medium">eBay</td>
-          <td class="px-4 py-2">ebay.in</td>
-          <td class="px-4 py-2">95</td>
-          <td class="px-4 py-2">3 days ago</td>
-          <td class="px-4 py-2 space-x-2">
-            <a href="#" class="text-blue-600 hover:underline">View</a>
-            <a href="#" class="text-red-600 hover:underline">Remove</a>
-          </td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
