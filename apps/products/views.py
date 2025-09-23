@@ -47,4 +47,4 @@ def upload_products(request):
         new_products.append(product)
 
     # Render only the table rows (for HTMX swap)
-    return render(request, "products/product_rows.html", {"products": new_products})
+    return render(request, "products/partials/product_rows.html", {"products": new_products})
