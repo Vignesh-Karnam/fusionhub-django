@@ -4,80 +4,89 @@
 {% block title %}Products - FusionHub{% endblock %}
 
 {% block content %}
-<h1 class="text-3xl font-bold text-gray-800 mb-8">🛍 Products</h1>
+<div class="flex gap-8">
 
-<!-- Top Metrics -->
-<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-  <div class="p-6 bg-white rounded-lg shadow">
-    <h2 class="text-sm text-gray-500">Total Products</h2>
-    <p class="text-3xl font-bold text-indigo-600">{{ total_products }}</p>
-  </div>
-  <div class="p-6 bg-white rounded-lg shadow">
-    <h2 class="text-sm text-gray-500">Tracked Platforms</h2>
-    <p class="text-3xl font-bold text-green-600">{{ platforms_tracked }}</p>
-  </div>
-  <div class="p-6 bg-white rounded-lg shadow">
-    <h2 class="text-sm text-gray-500">Recently Added</h2>
-    <p class="text-3xl font-bold text-yellow-500">{{ recent_products }}</p>
-  </div>
-</div>
+  <!-- Sidebar is fixed in login_base.html, main content scrolls -->
+  <div class="flex-1 flex flex-col gap-8">
 
-<!-- Upload Products -->
-<div class="p-6 bg-white rounded-lg shadow mb-8">
-  <div class="flex items-center justify-between mb-4">
-    <h2 class="text-lg font-semibold">⬆ Upload Products</h2>
-    <a href="{% static 'templates/products_template.csv' %}" 
-       download 
-       class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm">
-       ⬇ Download Template
-    </a>
-  </div>
+    <!-- Page Heading -->
+    <h1 class="text-3xl font-bold text-gray-800">🛍 Products</h1>
 
-  <form 
-    method="post" 
-    enctype="multipart/form-data"
-    hx-post="{% url 'products:upload' %}" 
-    hx-target="#upload-result" 
-    hx-swap="innerHTML"
-    class="flex items-center gap-4"
-  >
-    {% csrf_token %}
-    <input type="file" name="file" 
-           class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 
-                  file:rounded-lg file:border-0 file:text-sm file:font-semibold 
-                  file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+    <!-- Top Metrics -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="p-6 bg-white rounded-lg shadow">
+        <h2 class="text-sm text-gray-500">Total Products</h2>
+        <p class="text-3xl font-bold text-indigo-600">{{ total_products }}</p>
+      </div>
+      <div class="p-6 bg-white rounded-lg shadow">
+        <h2 class="text-sm text-gray-500">Tracked Platforms</h2>
+        <p class="text-3xl font-bold text-green-600">{{ platforms_tracked }}</p>
+      </div>
+      <div class="p-6 bg-white rounded-lg shadow">
+        <h2 class="text-sm text-gray-500">Recently Added</h2>
+        <p class="text-3xl font-bold text-yellow-500">{{ recent_products }}</p>
+      </div>
+    </div>
 
-    <button type="submit"
-            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-      Upload
-    </button>
-  </form>
+    <!-- Upload Products -->
+    <div class="p-6 bg-white rounded-lg shadow">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold">⬆ Upload Products</h2>
+        <a href="{% static 'templates/products_template.csv' %}" 
+           download 
+           class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm">
+           ⬇ Download Template
+        </a>
+      </div>
 
-  <div id="upload-result" class="mt-4 text-sm"></div>
-</div>
+      <form 
+        method="post" 
+        enctype="multipart/form-data"
+        hx-post="{% url 'products:upload' %}" 
+        hx-target="#upload-result" 
+        hx-swap="innerHTML"
+        class="flex items-center gap-4"
+      >
+        {% csrf_token %}
+        <input type="file" name="file" 
+               class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 
+                      file:rounded-lg file:border-0 file:text-sm file:font-semibold 
+                      file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
 
-<!-- Products Table -->
-<div class="p-6 bg-white rounded-lg shadow">
-  <h2 class="text-lg font-semibold mb-4">📊 Product List</h2>
-  <div class="overflow-x-auto">
-    <table class="w-full border border-gray-200 rounded-lg">
-      <thead class="bg-gray-50">
-        <tr>
-          <th class="px-4 py-2 text-left text-sm text-gray-600">Title</th>
-          <th class="px-4 py-2 text-left text-sm text-gray-600">Platform</th>
-          <th class="px-4 py-2 text-left text-sm text-gray-600">Brand</th>
-          <th class="px-4 py-2 text-left text-sm text-gray-600">URL</th>
-        </tr>
-      </thead>
+        <button type="submit"
+                class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+          Upload
+        </button>
+      </form>
 
-      <!-- HTMX target -->
-      <tbody id="products-table-body"
-             hx-get="{% url 'products:products' %}?page=1"
-             hx-trigger="load"
-             hx-swap="outerHTML">
-        <!-- initial rows + pagination will be loaded via HTMX -->
-      </tbody>
-    </table>
+      <div id="upload-result" class="mt-4 text-sm"></div>
+    </div>
+
+    <!-- Products Table -->
+    <div class="p-6 bg-white rounded-lg shadow overflow-auto max-h-[600px]">
+      <h2 class="text-lg font-semibold mb-4">📊 Product List</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full border border-gray-200 rounded-lg">
+          <thead class="bg-gray-50 sticky top-0 z-10">
+            <tr>
+              <th class="px-4 py-2 text-left text-sm text-gray-600">Title</th>
+              <th class="px-4 py-2 text-left text-sm text-gray-600">Platform</th>
+              <th class="px-4 py-2 text-left text-sm text-gray-600">Brand</th>
+              <th class="px-4 py-2 text-left text-sm text-gray-600">URL</th>
+            </tr>
+          </thead>
+
+          <!-- HTMX target for rows + pagination -->
+          <tbody id="products-table-body"
+                 hx-get="{% url 'products:products' %}?page=1"
+                 hx-trigger="load"
+                 hx-swap="outerHTML">
+            <!-- rows + pagination will be loaded here via HTMX -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </div>
 {% endblock %}

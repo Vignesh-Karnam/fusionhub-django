@@ -7,67 +7,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'src/output.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
 </head>
 <body class="bg-gray-100">
-<div class="flex min-h-screen">
 
-  <!-- Sidebar (Fixed for all pages) -->
-  <aside class="w-64 bg-gray-900 text-white flex flex-col">
-    <div class="px-6 py-4 border-b border-gray-800">
-      <a href="{% url 'dashboard:dashboard' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
-        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="FusionHub Logo" />
-        <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">FusionHub</span>
-      </a>
-    </div>
+<!-- Fixed Sidebar -->
+<aside class="w-64 h-screen fixed top-0 left-0 bg-gray-900 text-white flex flex-col">
+  <div class="px-6 py-4 border-b border-gray-800">
+    <a href="{% url 'dashboard:dashboard' %}" class="flex items-center space-x-3">
+      <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="FusionHub Logo" />
+      <span class="text-2xl font-semibold">FusionHub</span>
+    </a>
+  </div>
 
-    <nav class="flex-1 px-4 py-6 space-y-2">
-      <a href="{% url 'dashboard:dashboard' %}" 
-         class="block px-4 py-2 rounded-lg {% if request.resolver_match.url_name == 'dashboard' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
-         📊 Dashboard
-      </a>
-      <a href="{% url 'products:products' %}" 
-        class="block px-4 py-2 rounded-lg {% if request.resolver_match.namespace == 'products' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
-        🛍 My Products
-      </a>
-      <a href="{% url 'competitors:competitors' %}" 
-         class="block px-4 py-2 rounded-lg {% if request.resolver_match.url_name == 'competitors' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
-         📦 Competitors
-      </a>
-      <a href="" 
-         class="block px-4 py-2 rounded-lg {% if request.resolver_match.url_name == 'alerts' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
-         ⚡ Price Alerts
-      </a>
-      <a href="" 
-         class="block px-4 py-2 rounded-lg {% if request.resolver_match.url_name == 'reports' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
-         📑 Reports
-      </a>
-      <a href="" 
-         class="block px-4 py-2 rounded-lg {% if request.resolver_match.url_name == 'team' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
-         👥 Team
-      </a>
-      <a href="" 
-         class="block px-4 py-2 rounded-lg {% if request.resolver_match.url_name == 'settings' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
-         ⚙ Settings
-      </a>
-    </nav>
+  <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+    <a href="{% url 'dashboard:dashboard' %}" 
+       class="block px-4 py-2 rounded-lg {% if request.resolver_match.url_name == 'dashboard' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
+       📊 Dashboard
+    </a>
+    <a href="{% url 'products:products' %}" 
+       class="block px-4 py-2 rounded-lg {% if request.resolver_match.namespace == 'products' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
+       🛍 My Products
+    </a>
+    <a href="{% url 'competitors:competitors' %}" 
+       class="block px-4 py-2 rounded-lg {% if request.resolver_match.namespace == 'competitors' %}bg-gray-800{% else %}hover:bg-gray-800{% endif %}">
+       📦 Competitors
+    </a>
+    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-800">⚡ Price Alerts</a>
+    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-800">📑 Reports</a>
+    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-800">👥 Team</a>
+    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-800">⚙ Settings</a>
+  </nav>
 
-    <div class="px-6 py-4 border-t border-gray-800">
-      <span class="block text-gray-400 text-sm mb-2">Hello, {{ user.username }}</span>
-      <form method="post" action="{% url 'users:logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="w-full block text-center px-3 py-2 bg-red-600 rounded-lg hover:bg-red-700">
-            Logout
-        </button>
-      </form>
-    </div>
-  </aside>
+  <div class="px-6 py-4 border-t border-gray-800">
+    <span class="block text-gray-400 text-sm mb-2">Hello, {{ user.username }}</span>
+    <form method="post" action="{% url 'users:logout' %}">
+      {% csrf_token %}
+      <button type="submit" class="w-full block text-center px-3 py-2 bg-red-600 rounded-lg hover:bg-red-700">
+          Logout
+      </button>
+    </form>
+  </div>
+</aside>
 
-  <!-- Main Content -->
-  <main class="flex-1 p-8">
-    {% block content %}{% endblock %}
-  </main>
-</div>
+<!-- Main content -->
+<main class="ml-64 min-h-screen p-8">
+  {% block content %}{% endblock %}
+</main>
+
 {% block extra_scripts %}{% endblock %}
-  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
+
 </body>
 </html>
