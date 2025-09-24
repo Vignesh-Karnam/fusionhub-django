@@ -1,15 +1,48 @@
-{% for product in products %}
-<tr class="border-t">
-    <td class="px-4 py-2">{{ product.product_id }}</td>
+<tbody id="products-table-body">
+  {% for product in products %}
+  <tr class="border-t">
     <td class="px-4 py-2">{{ product.title }}</td>
     <td class="px-4 py-2">{{ product.platform.name }}</td>
-    <td class="px-4 py-2">{{ product.brand|default:"-" }}</td>
+    <td class="px-4 py-2">{{ product.brand }}</td>
     <td class="px-4 py-2">
-        <a href="{{ product.url }}" target="_blank" class="text-blue-600 hover:underline">View</a>
+      <a href="{{ product.url }}" target="_blank" class="text-blue-600 hover:underline">Link</a>
     </td>
-</tr>
-{% empty %}
-<tr>
-    <td colspan="5" class="px-4 py-2 text-center text-gray-500">No products yet</td>
-</tr>
-{% endfor %}
+  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="4" class="text-center text-gray-500 py-2">No products yet</td>
+  </tr>
+  {% endfor %}
+
+  <!-- Pagination inside table -->
+  <tr>
+    <td colspan="4" class="text-center py-2">
+      {% if page_obj.has_previous %}
+      <button hx-get="?page={{ page_obj.previous_page_number }}"
+              hx-target="#products-table-body"
+              hx-swap="outerHTML"
+              class="px-3 py-1 border rounded hover:bg-gray-100">Prev</button>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if num == page_obj.number %}
+          <span class="px-3 py-1 bg-indigo-600 text-white rounded">{{ num }}</span>
+        {% elif num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+          <button hx-get="?page={{ num }}"
+                  hx-target="#products-table-body"
+                  hx-swap="outerHTML"
+                  class="px-3 py-1 border rounded hover:bg-gray-100">{{ num }}</button>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+      <button hx-get="?page={{ page_obj.next_page_number }}"
+              hx-target="#products-table-body"
+              hx-swap="outerHTML"
+              class="px-3 py-1 border rounded hover:bg-gray-100">Next</button>
+      {% endif %}
+
+      <span class="ml-2">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    </td>
+  </tr>
+</tbody>

@@ -53,7 +53,6 @@
     </button>
   </form>
 
-  <!-- Upload Result -->
   <div id="upload-result" class="mt-4 text-sm"></div>
 </div>
 
@@ -70,23 +69,13 @@
           <th class="px-4 py-2 text-left text-sm text-gray-600">URL</th>
         </tr>
       </thead>
-      <tbody>
-        {% for product in products %}
-        <tr class="border-t">
-          <td class="px-4 py-2">{{ product.title }}</td>
-          <td class="px-4 py-2">{{ product.platform.name }}</td>
-          <td class="px-4 py-2">{{ product.brand }}</td>
-          <td class="px-4 py-2">
-            <a href="{{ product.url }}" class="text-blue-600 hover:underline" target="_blank">
-              Link
-            </a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="4" class="px-4 py-2 text-gray-500 text-center">No products yet</td>
-        </tr>
-        {% endfor %}
+
+      <!-- HTMX target -->
+      <tbody id="products-table-body"
+             hx-get="{% url 'products:products' %}?page=1"
+             hx-trigger="load"
+             hx-swap="outerHTML">
+        <!-- initial rows + pagination will be loaded via HTMX -->
       </tbody>
     </table>
   </div>

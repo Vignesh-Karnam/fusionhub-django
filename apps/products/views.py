@@ -1,5 +1,6 @@
 import csv
 import io
+from datetime import timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,21 +17,33 @@ class ProductsView(LoginRequiredMixin, ListView):
     template_name = 'products/products.html'
     model = Product
     context_object_name = 'products'
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Total products
         context['total_products'] = Product.objects.count()
-
-        # Total platforms tracked
         context['platforms_tracked'] = Platform.objects.count()
-
-        # Products added in last 7 days (recent)
         last_week = now() - timedelta(days=7)
         context['recent_products'] = Product.objects.filter(created_at__gte=last_week).count()
 
+        # pagination info
+        page_obj = context.get('page_obj')
+        if page_obj:
+            context['current_page'] = page_obj.number
+            context['total_pages'] = page_obj.paginator.num_pages
+
         return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.headers.get('HX-Request'):
+            return render(
+                self.request,
+                'products/partials/product_rows.html',
+                context,
+                **response_kwargs
+            )
+        return super().render_to_response(context, **response_kwargs)
 
 
 @login_required
