@@ -135,3 +135,12 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'dashboard:dashboard'
 LOGOUT_REDIRECT_URL = 'core:home'
+
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    'scrape-user-products-every-6-hours': {
+        'task': 'scraper.tasks.scrape_product',
+        'schedule': crontab(minute=0, hour='*/6')
+    }
+}
