@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.products',
     'apps.competitors',
+    'apps.scraper',
     "django_celery_beat",
     "django_celery_results",
 ]

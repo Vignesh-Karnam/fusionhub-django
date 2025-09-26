@@ -5,3 +5,5 @@ dotenv
 celery
 django-celery-beat
 django-celery-results
+selectolax
+requests
