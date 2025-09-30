@@ -139,8 +139,8 @@ LOGOUT_REDIRECT_URL = 'core:home'
 from celery.schedules import crontab
 
 CELERY_BEAT_SCHEDULE = {
-    'scrape-user-products-every-6-hours': {
-        'task': 'scraper.tasks.scrape_product',
-        'schedule': crontab(minute=0, hour='*/6')
+    'scrape-all-amazon-products-every-6-hours': {
+        'task': 'apps.scraper.tasks.scrape_all_amazon_products',
+        'schedule': crontab(minute=0, hour='*/6'),
     }
 }

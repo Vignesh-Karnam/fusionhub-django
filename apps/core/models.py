@@ -5,5 +5,8 @@ User = get_user_model()
 
 
 class Platform(models.Model):
-    name = models.CharField(max_length=50)
-    base_url = models.CharField()
+    name = models.CharField(max_length=50, unique=True)
+    base_url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
