@@ -53,12 +53,13 @@ def upload_products(request):
     if not file:
         return JsonResponse({"error": "No file uploaded"}, status=400)
 
-    # Decode file content
+    # Decode file content safely
     try:
         decoded_file = file.read().decode("utf-8")
     except UnicodeDecodeError:
         file.seek(0)  # Reset file pointer
         decoded_file = file.read().decode("cp1252")
+
     io_string = io.StringIO(decoded_file)
     reader = csv.DictReader(io_string)
 
@@ -69,16 +70,19 @@ def upload_products(request):
         except Platform.DoesNotExist:
             continue
 
-        product = Product.objects.create(
+        product, created = Product.objects.get_or_create(
             user=request.user,
             platform=platform,
             product_id=row.get("product_id"),
-            title=row.get("title") or None,
-            url=row.get("url"),
-            brand=row.get("brand") or None,
-            created_at=now(),
+            defaults={
+                "created_at": now(),
+            },
         )
-        new_products.append(product)
+        if created:
+            new_products.append(product)
 
-    # Render only the table rows (for HTMX swap)
-    return render(request, "products/partials/product_rows.html", {"products": new_products})
+    return render(
+        request,
+        "products/partials/product_rows.html",
+        {"products": new_products},
+    )

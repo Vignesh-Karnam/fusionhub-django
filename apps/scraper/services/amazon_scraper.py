@@ -40,7 +40,7 @@ class AmazonScraper:
             tree = HTMLParser(response.text)
             title = tree.css_first('#titleSection').text().strip()
             price = tree.css_first('#corePriceDisplay_desktop_feature_div')
-            selling_price = price.css_first('.a-price-whole').text()
+            selling_price = price.css_first('.a-price-whole').text().replace(',', '')
             # discount = price.css_first('.a-size-large.a-color-price.savingPriceOverride.aok-align-center.reinventPriceSavingsPercentageMargin.savingsPercentage').text().replace('%', '').replace('-', '')
             # mrp = tree.css_first('[class="a-price a-text-price"] > [class="a-offscreen"]').text().replace('₹', '').replace(',', '')
             category = tree.css_first('#wayfinding-breadcrumbs_feature_div').text()
