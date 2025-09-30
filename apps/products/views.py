@@ -5,10 +5,10 @@ from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils.timezone import now, timedelta
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView, TemplateView
+from django.views.generic import DetailView, ListView, TemplateView
 
 from .models import Platform, Product
 
@@ -86,3 +86,24 @@ def upload_products(request):
         "products/partials/product_rows.html",
         {"products": new_products},
     )
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "products/detail.html"
+    context_object_name = "product"
+
+    def get_queryset(self):
+        # Limit to current user's products only
+        return Product.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.object
+
+        latest_snapshot = product.snapshots.first()
+        snapshots = product.snapshots.all()[:30]
+
+        context["latest_snapshot"] = latest_snapshot
+        context["snapshots"] = snapshots
+        return context

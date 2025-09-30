@@ -1,0 +1,79 @@
+{% extends "login_base.html" %}
+{% block title %}{{ product.title }} - FusionHub{% endblock %}
+
+{% block content %}
+<div class="p-8">
+
+  <!-- Heading -->
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">
+    {{ product.title|default:product.product_id }}
+  </h1>
+  <p class="text-sm text-gray-600">
+    Platform: <span class="font-medium">{{ product.platform.name }}</span> |
+    Brand: <span class="font-medium">{{ product.brand|default:"N/A" }}</span> |
+    <a href="{{ product.url }}" target="_blank" class="text-indigo-600 underline">View on site</a>
+  </p>
+
+  <!-- Latest snapshot -->
+  {% if latest_snapshot %}
+  <div class="mt-6 p-6 bg-white rounded-lg shadow grid grid-cols-2 sm:grid-cols-4 gap-6">
+    <div>
+      <h2 class="text-sm text-gray-500">Price</h2>
+      <p class="text-xl font-semibold text-indigo-600">
+        {{ latest_snapshot.price }} {{ latest_snapshot.currency }}
+      </p>
+    </div>
+    <div>
+      <h2 class="text-sm text-gray-500">Rating</h2>
+      <p class="text-xl font-semibold text-yellow-500">
+        {{ latest_snapshot.rating|default:"—" }}
+      </p>
+    </div>
+    <div>
+      <h2 class="text-sm text-gray-500">Reviews</h2>
+      <p class="text-xl font-semibold">{{ latest_snapshot.review_count|default:"—" }}</p>
+    </div>
+    <div>
+      <h2 class="text-sm text-gray-500">Availability</h2>
+      <p class="text-xl font-semibold {{ latest_snapshot.availability|yesno:'text-green-600,text-red-600' }}">
+        {{ latest_snapshot.availability|yesno:"In Stock,Out of Stock" }}
+      </p>
+    </div>
+  </div>
+  {% else %}
+    <p class="mt-4 text-gray-500">No snapshots available yet.</p>
+  {% endif %}
+
+  <!-- Snapshot history table -->
+  <div class="mt-10 p-6 bg-white rounded-lg shadow">
+    <h2 class="text-lg font-semibold mb-4">📈 Snapshot History</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full border border-gray-200 rounded-lg">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-2 text-left text-sm text-gray-600">Date</th>
+            <th class="px-4 py-2 text-left text-sm text-gray-600">Price</th>
+            <th class="px-4 py-2 text-left text-sm text-gray-600">Rating</th>
+            <th class="px-4 py-2 text-left text-sm text-gray-600">Reviews</th>
+            <th class="px-4 py-2 text-left text-sm text-gray-600">Availability</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for snap in snapshots %}
+          <tr class="border-t">
+            <td class="px-4 py-2 text-sm">{{ snap.created_at|date:"Y-m-d H:i" }}</td>
+            <td class="px-4 py-2 text-sm">{{ snap.price }} {{ snap.currency }}</td>
+            <td class="px-4 py-2 text-sm">{{ snap.rating|default:"—" }}</td>
+            <td class="px-4 py-2 text-sm">{{ snap.review_count|default:"—" }}</td>
+            <td class="px-4 py-2 text-sm">{{ snap.availability|yesno:"In Stock,Out of Stock" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="px-4 py-2 text-center text-gray-500">No snapshots yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
