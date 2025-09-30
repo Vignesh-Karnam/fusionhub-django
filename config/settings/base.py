@@ -144,3 +144,14 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(minute=0, hour='*/6'),
     }
 }
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.celery import CeleryIntegration
+
+sentry_sdk.init(
+    dsn="https://a9947fa8cc8ddeb8edfea48e4ea9ec8b@o4510110421024768.ingest.us.sentry.io/4510110422859776",
+    integrations=[DjangoIntegration(), CeleryIntegration()],
+    traces_sample_rate=1.0,
+    send_default_pii=True,
+)

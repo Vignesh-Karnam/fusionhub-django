@@ -7,3 +7,4 @@ django-celery-beat
 django-celery-results
 selectolax
 requests
+sentry-sdk[django]
